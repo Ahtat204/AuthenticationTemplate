@@ -3,7 +3,7 @@ package org.example.View;
 import javax.swing.*;
 import java.awt.*;
 
-public class Form extends JFrame {
+public sealed class Form extends JFrame permits LoginView, SignUpView {
     String IconPath = System.getenv("iconpath");
     ImageIcon icon = new ImageIcon(IconPath);
     public Form(String title) {
@@ -18,7 +18,8 @@ public class Form extends JFrame {
         setIconImage(icon.getImage());
 
     }
-    public static void ThrowErrorWindow(String e) {
-        JFrame frame = new JFrame(e);
+    public static JFrame ThrowErrorWindow(String e) {
+        return new JFrame(e);
     }
+
 }

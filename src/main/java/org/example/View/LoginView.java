@@ -8,11 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.*;
 
 
-
-public class LoginView  extends Form{
+public non-sealed class LoginView  extends Form{
 
     public AuthenticationController loginController = new AuthenticationController(new Repository());
 
