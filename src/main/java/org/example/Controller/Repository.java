@@ -2,10 +2,15 @@ package org.example.Controller;
 
 import org.example.Model.User;
 import org.jetbrains.annotations.NotNull;
+
 import java.sql.*;
 import java.util.concurrent.CompletableFuture;
 
-
+/**
+ * for best architectural design ,
+ * we used the Repository pattern to be the middleman between our DAO and the MVC controller,
+ * by implementing the DAO
+ */
 public class Repository implements DAO {
 
     private final Connection connection;
@@ -16,7 +21,7 @@ public class Repository implements DAO {
 
 
     @Override
-    public CompletableFuture<String> createUser(@NotNull User user) {
+    public CompletableFuture<Boolean> createUser(@NotNull User user) {
         return CompletableFuture.supplyAsync(() -> {
             String query = "INSERT INTO user(email,password) VALUES (?,?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -28,14 +33,14 @@ public class Repository implements DAO {
                     try (ResultSet keys = preparedStatement.getGeneratedKeys()) {
                         if (keys.next()) {
                             int id = keys.getInt(1);
-                            return "User created with ID: " + id;
+                            return true;
                         }
                     }
                 }
-                return "User creation failed";
+                return false;
             } catch (SQLException e) {
                 e.printStackTrace();
-                return "Error: " + e.getMessage();
+                return false;
             }
         });
     }
@@ -49,7 +54,7 @@ public class Repository implements DAO {
                 preparedStatement.setString(1, user.Email());
                 preparedStatement.setString(2, user.Password());
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    return resultSet.next();
+                    return true;
 
 
                 }
@@ -81,6 +86,7 @@ public class Repository implements DAO {
         });
 
     }
+
     @Override
     public CompletableFuture<User> deleteUser(User user) {
         return CompletableFuture.completedFuture(user);

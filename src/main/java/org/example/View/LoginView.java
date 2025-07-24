@@ -1,5 +1,6 @@
 package org.example.View;
 
+import com.example.View.Result;
 import org.example.Controller.AuthenticationController;
 import org.example.Controller.Repository;
 import org.example.Model.User;
@@ -10,9 +11,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
-public non-sealed class LoginView  extends Form{
+public non-sealed class LoginView extends Form {
 
     public AuthenticationController loginController = new AuthenticationController(new Repository());
+    Result processResult;
 
     public LoginView() {
         super("Login");
@@ -42,7 +44,7 @@ public non-sealed class LoginView  extends Form{
         add(passwordLabel);
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setBounds(70, 238, 345, 55);
-        passwordField.setBackground(Color.BLUE);
+        passwordField.setBackground(Color.WHITE);
         passwordField.setForeground(Color.BLACK);
         passwordField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(passwordField);
@@ -73,12 +75,17 @@ public non-sealed class LoginView  extends Form{
         add(loginButton);
         loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         loginButton.addActionListener(e -> {
+                    String email = EmailFiledtext.getText();
+                    String password = String.valueOf(passwordField.getPassword());
                     User user = new User(EmailFiledtext.getText(), passwordField.getPassword().toString());
                     loginController.SignIn(user).thenAccept(result -> {
-                        if (result) {
+                        if (result == true) {
                             System.out.println("Login Successful");
+                            processResult = new Result("login Successfully ", Color.green);
+
                         } else {
                             System.out.println("Login Failed,email or password is incorrect");
+                            processResult = new Result("login Failed", Color.RED);
                         }
                     });
 

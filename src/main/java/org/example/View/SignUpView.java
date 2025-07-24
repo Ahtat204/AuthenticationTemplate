@@ -1,5 +1,6 @@
 package org.example.View;
 
+import com.example.View.Result;
 import org.example.Controller.AuthenticationController;
 import org.example.Controller.Repository;
 import org.example.Model.User;
@@ -9,9 +10,15 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
 public non-sealed class SignUpView extends Form {
+
     protected JCheckBox checkBox;
     protected AuthenticationController SignUpConroller = new AuthenticationController(new Repository());
+    /**
+     * this is a Kotlin class , will be used to show authentication results , login failure , signup failure,success...
+     */
+    Result processResult;
 
     public SignUpView() {
         super("Signup");
@@ -109,17 +116,25 @@ public non-sealed class SignUpView extends Form {
         SignUpButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(SignUpButton);
         SignUpButton.addActionListener(e -> {
-            User user = new User(emailField.getText(), passwordField.getPassword().toString());
-            if (!confirmPasswordField.getPassword().toString().equals(passwordField.getPassword().toString())) {
-                JFrame frame = new JFrame("Sign Up");
+            String email = emailField.getText();
+            boolean check = confirmPasswordField.getPassword().equals(passwordField.getPassword());
+            String confirmPassword = String.valueOf(confirmPasswordField.getPassword());
+            String password = String.valueOf(passwordField.getPassword());
+            User user = new User(email, password);
+
+            if (check) {
+                SignUpConroller.SignUp(user).thenAccept(result -> {
+                    processResult = new Result(
+                            result ? "user created successfully" : "error",
+                            result ? Color.GREEN : Color.RED
+                    );
+                });
             }
-           if(confirmPasswordField.getPassword().toString().equals(passwordField.getPassword().toString())) {
-               SignUpConroller.SignUp(user).thenAccept(result -> {
-                   JPanel panel = new JPanel();
-                  JFrame frame = new JFrame("Sign Up");
-                 panel.add(frame);
-               });
-           }
+            else{
+                processResult = new Result("password is not correct", Color.RED);
+            }
+
+
 
         });
     }

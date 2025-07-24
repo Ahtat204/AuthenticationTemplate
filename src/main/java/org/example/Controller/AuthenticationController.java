@@ -4,6 +4,9 @@ import org.example.Model.User;
 
 import java.util.concurrent.CompletableFuture;
 
+/**
+Following the MVC architecture , this class is the Controller
+ */
 public class AuthenticationController {
     protected Repository Repository ;
     public void LoginSignUpController(Repository Repository) {
@@ -14,7 +17,7 @@ public class AuthenticationController {
         Repository = repository;
     }
 
-    public CompletableFuture<String> SignUp(User user) {
+    public CompletableFuture<Boolean> SignUp(User user) {
         return Repository.createUser(user);
     }
     public CompletableFuture<Boolean> SignIn(User user) {
