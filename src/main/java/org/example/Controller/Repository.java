@@ -18,13 +18,16 @@ public class Repository implements DAO {
     public Repository() {
         this.connection = DataBaseConnection.getInstance().getConnection();
     }
+    public Repository(Connection connection) {
+        this.connection = connection;
+    }
 
 
     @Override
     public CompletableFuture<Boolean> createUser(@NotNull User user) {
         return CompletableFuture.supplyAsync(() -> {
-            String query = "INSERT INTO user(email,password) VALUES (?,?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            var query = "INSERT INTO user(email,password) VALUES (?,?)";
+            try (var preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, user.Email());
                 preparedStatement.setString(2, user.Password());
 
@@ -44,29 +47,25 @@ public class Repository implements DAO {
             }
         });
     }
-
-
     @Override
     public CompletableFuture<Boolean> readUser(@NotNull User user) {
         return CompletableFuture.supplyAsync(() -> {
-            String query = "SELECT * FROM user WHERE email = ? AND password = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            var query = "SELECT * FROM user WHERE email = ? AND password = ?";
+            try (var preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, user.Email());
                 preparedStatement.setString(2, user.Password());
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     return true;
-
-
                 }
-
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
             }
         });
     }
-
-
+    /**
+    this method is going to be used for  password resetting, in case of forgetting it
+     */
     @Override
     public CompletableFuture<User> updateUser(@NotNull User user) {
         return CompletableFuture.supplyAsync(() -> {

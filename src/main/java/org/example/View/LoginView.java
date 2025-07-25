@@ -66,7 +66,6 @@ public non-sealed class LoginView extends Form {
                 LoginView.this.setVisible(false);
             }
         });
-
         JButton loginButton = new JButton("Login");
         loginButton.setBounds(180, 340, 100, 25);
         loginButton.setForeground(Color.decode("#E3EBFF"));
@@ -75,18 +74,14 @@ public non-sealed class LoginView extends Form {
         add(loginButton);
         loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         loginButton.addActionListener(e -> {
-                    String email = EmailFiledtext.getText();
-                    String password = String.valueOf(passwordField.getPassword());
-                    User user = new User(EmailFiledtext.getText(), passwordField.getPassword().toString());
+                    var email = EmailFiledtext.getText();
+                    var password = String.valueOf(passwordField.getPassword());
+                    var user = new User(EmailFiledtext.getText(), passwordField.getPassword().toString());
                     loginController.SignIn(user).thenAccept(result -> {
-                        if (result == true) {
-                            System.out.println("Login Successful");
-                            processResult = new Result("login Successfully ", Color.green);
-
-                        } else {
-                            System.out.println("Login Failed,email or password is incorrect");
-                            processResult = new Result("login Failed", Color.RED);
-                        }
+                        processResult = new Result(
+                                result ? "login Successfully" : "login Failed",
+                                result ? Color.GREEN : Color.RED
+                        );
                     });
 
 

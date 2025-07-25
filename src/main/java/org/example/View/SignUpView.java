@@ -11,9 +11,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
-public non-sealed class SignUpView extends Form {
+public  non-sealed class SignUpView extends Form {
 
-    protected JCheckBox checkBox;
+
+    protected  JCheckBox checkBox;
     protected AuthenticationController SignUpConroller = new AuthenticationController(new Repository());
     /**
      * this is a Kotlin class , will be used to show authentication results , login failure , signup failure,success...
@@ -108,7 +109,7 @@ public non-sealed class SignUpView extends Form {
                 SignUpView.this.setVisible(false);
             }
         });
-        JButton SignUpButton = new JButton("Sign Up");
+        var SignUpButton = new JButton("Sign Up");
         SignUpButton.setBounds(215, 390, 100, 25);
         SignUpButton.setForeground(Color.decode("#E3EBFF"));
         SignUpButton.setBackground(Color.decode("#518E88"));
@@ -116,11 +117,11 @@ public non-sealed class SignUpView extends Form {
         SignUpButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(SignUpButton);
         SignUpButton.addActionListener(e -> {
-            String email = emailField.getText();
-            boolean check = confirmPasswordField.getPassword().equals(passwordField.getPassword());
-            String confirmPassword = String.valueOf(confirmPasswordField.getPassword());
-            String password = String.valueOf(passwordField.getPassword());
-            User user = new User(email, password);
+            var email = emailField.getText();
+            var check = confirmPasswordField.getPassword().equals(passwordField.getPassword());
+            var confirmPassword = String.valueOf(confirmPasswordField.getPassword());
+            var password = String.valueOf(passwordField.getPassword());
+            var user = new User(email, password);
 
             if (check) {
                 SignUpConroller.SignUp(user).thenAccept(result -> {
