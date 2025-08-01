@@ -34,8 +34,10 @@ public class DataBaseConnection {
 
     private Connection con;
 
-    // Private constructor to prevent external instantiation
-    private DataBaseConnection() {
+    /**
+    made public for unit testing,but package-private
+     */
+    DataBaseConnection() {
         try {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {

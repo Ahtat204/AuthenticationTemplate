@@ -1,8 +1,6 @@
 package org.example.Controller;
-
 import org.example.Model.User;
 import org.jetbrains.annotations.NotNull;
-
 import java.sql.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,6 +16,12 @@ public class Repository implements DAO {
     public Repository() {
         this.connection = DataBaseConnection.getInstance().getConnection();
     }
+
+    /**
+     * an overloaded constructor for testing purposes
+     *
+     * @param connection
+     */
     public Repository(Connection connection) {
         this.connection = connection;
     }
@@ -47,6 +51,7 @@ public class Repository implements DAO {
             }
         });
     }
+
     @Override
     public CompletableFuture<Boolean> readUser(@NotNull User user) {
         return CompletableFuture.supplyAsync(() -> {
@@ -63,8 +68,9 @@ public class Repository implements DAO {
             }
         });
     }
+
     /**
-    this method is going to be used for  password resetting, in case of forgetting it
+     * this method is going to be used for  password resetting, in case of forgetting it
      */
     @Override
     public CompletableFuture<User> updateUser(@NotNull User user) {
@@ -80,8 +86,6 @@ public class Repository implements DAO {
                 return null;
 
             }
-
-
         });
 
     }

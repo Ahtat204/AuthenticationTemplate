@@ -21,12 +21,5 @@ public sealed class Form extends JFrame permits LoginView, SignUpView {
         setIconImage(icon.getImage());
 
     }
-    /**
-     * this this method is a utility method ,
-     * for example if the user is successfully created in the DataBase , we use this method to show that
-     */
-    public static JFrame ThrowErrorWindow(String e) {
-        return new JFrame(e);
-    }
 
 }

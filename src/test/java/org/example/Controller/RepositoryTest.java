@@ -33,7 +33,6 @@ class RepositoryTest {
         when(mockStatement.getGeneratedKeys()).thenReturn(mockResultSet);
         when(mockResultSet.next()).thenReturn(true);
         when(mockResultSet.getInt(1)).thenReturn(1);
-
         CompletableFuture<Boolean> resultFuture = repository.createUser(testUser);
         assertTrue(resultFuture.get());
     }
