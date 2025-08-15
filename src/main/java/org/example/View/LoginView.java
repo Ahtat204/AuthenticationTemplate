@@ -76,7 +76,7 @@ public non-sealed class LoginView extends Form {
         loginButton.addActionListener(e -> {
                     var email = EmailFiledtext.getText();
                     var password = String.valueOf(passwordField.getPassword());
-                    var user = new User(EmailFiledtext.getText(), passwordField.getPassword().toString());
+                    var user = new User(email,password);
                     loginController.SignIn(user).thenAccept(result -> {
                         processResult = new Result(
                                 result ? "login Successfully" : "login Failed",

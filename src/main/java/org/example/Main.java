@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Controller.DataBaseConnection;
 import org.example.Controller.Repository;
 import org.example.Model.User;
 import org.example.View.LoginView;

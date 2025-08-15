@@ -1,73 +1,77 @@
-package org.example.Controller;
+    package org.example.Controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
-/**
- * A singleton class responsible for managing a single database connection instance.
- * <p>
- * This pattern ensures that only one connection is used throughout the entire program,
- * which helps conserve system resources, as database connections can be expensive.
- */
-public class DataBaseConnection {
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
 
     /**
-     * The database URL. Replace {@code System.getenv("url")} with your actual MySQL URL if needed.
+     * A singleton class responsible for managing a single database connection instance.
+     * <p>
+     * This pattern ensures that only one connection is used throughout the entire program,
+     * which helps conserve system resources, as database connections can be expensive.
      */
-    private static final String URL = System.getenv("url");
+    public final class DataBaseConnection {
 
-    /**
-     * The database username. Replace {@code System.getenv("user")} with your actual MySQL username (e.g., "root").
-     */
-    private static final String USER = System.getenv("user");
+        /**
+         * The database URL. Replace {@code System.getenv("url")} with your actual MySQL URL if needed.
+         */
+        private static final String URL = System.getenv("url");
 
-    /**
-     * The database password. Replace {@code System.getenv("password")} with your actual MySQL password.
-     */
-    private static final String PASSWORD = System.getenv("password");
+        /**
+         * The database username. Replace {@code System.getenv("user")} with your actual MySQL username (e.g., "root").
+         */
+        private static final String USER = System.getenv("user");
 
-    /**
-     * Singleton instance of {@code DataBaseConnection}.
-     */
-    private static final DataBaseConnection instance = new DataBaseConnection();
+        /**
+         * The database password. Replace {@code System.getenv("password")} with your actual MySQL password.
+         */
+        private static final String PASSWORD = System.getenv("password");
 
-    private static Connection con;
+        /**
+         * Singleton instance of {@code DataBaseConnection}.
+         */
+        private static final DataBaseConnection instance;
 
-    /**
-    made public for unit testing,but package-private
-     */
-    DataBaseConnection() {
-        try {
-            con = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        static {
+            instance = new DataBaseConnection();
         }
-    }
 
-    /**
-     * Provides access to the singleton instance of {@code DataBaseConnection}.
-     *
-     * @return the singleton instance
-     */
-    public static DataBaseConnection getInstance() {
-        return instance;
-    }
+        private static Connection con;
 
-    /**
-     * Returns a valid {@link Connection} object.
-     * If the connection is closed or null, a new connection is established.
-     *
-     * @return a valid database connection
-     */
-    public Connection getConnection() {
-        try {
-            if (con == null || con.isClosed() ) {
+        /**
+        made public for unit testing,but package-private
+         */
+        private DataBaseConnection() {
+            try {
                 con = DriverManager.getConnection(URL, USER, PASSWORD);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Consider logging
         }
-        return con;
+
+        /**
+         * Provides access to the singleton instance of {@code DataBaseConnection}.
+         *
+         * @return the singleton instance
+         */
+        public static DataBaseConnection getInstance() {
+            return instance;
+        }
+
+        /**
+         * Returns a valid {@link Connection} object.
+         * If the connection is closed or null, a new connection is established.
+         *
+         * @return a valid database connection
+         */
+        public static Connection getConnection() {
+            try {
+                if (con == null || con.isClosed() || con.isReadOnly()||con!=DataBaseConnection.con) {
+                    con = DriverManager.getConnection(URL, USER, PASSWORD);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Consider logging
+            }
+            return con;
+        }
     }
-}

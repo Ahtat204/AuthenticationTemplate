@@ -17,7 +17,7 @@ class DataBaseConnectionTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        dataBaseConnection=new DataBaseConnection();
+        dataBaseConnection=DataBaseConnection.getInstance();
         connection=mock(dataBaseConnection.getConnection().getClass());
     }
     @Test
@@ -28,11 +28,14 @@ class DataBaseConnectionTest {
 
     @Test
     void AssertInstanceNotNull(){
-        assertNotNull(DataBaseConnection.getInstance());
+        assertNotNull(DataBaseConnection.getInstance().getConnection());
     }
 
     @Test
     void getConnection_test() {
+        var con1=DataBaseConnection.getInstance().getConnection();
+        var con2=DataBaseConnection.getInstance().getConnection();
+        assertEquals(con1,con2);
     }
 
     @Test

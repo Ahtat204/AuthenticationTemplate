@@ -12,10 +12,10 @@ public class AuthenticationController {
     public AuthenticationController(Repository repository) {
         Repository = repository;
     }
-    public CompletableFuture<Boolean> SignUp(User user) {
+    public final CompletableFuture<Boolean> SignUp(User user) {
         return Repository.createUser(user);
     }
-    public CompletableFuture<Boolean> SignIn(User user) {
+    public final CompletableFuture<Boolean> SignIn(User user) {
         return Repository.readUser(user);
     }
 }
