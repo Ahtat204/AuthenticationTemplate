@@ -15,8 +15,8 @@ class RepositoryTest {
     private Repository repository;
 
     @BeforeEach
-    void setUp() throws Exception {
-        mockConnection = mock(Connection.class);
+    void setUp() {
+        mockConnection = mock(DataBaseConnection.getInstance().getConnection().getClass());
         mockStatement = mock(PreparedStatement.class);
         mockResultSet = mock(ResultSet.class);
         repository = new Repository(mockConnection);
@@ -53,7 +53,7 @@ class RepositoryTest {
 
     @Test
     void testReadUser_NotFound() throws Exception {
-        User testUser = new User("fake@example.com", "wrongpass");
+        User testUser = new User("fake@examp.com", "wropass");
 
         when(mockConnection.prepareStatement(anyString()))
                 .thenReturn(mockStatement);

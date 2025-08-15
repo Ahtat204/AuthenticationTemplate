@@ -1,6 +1,8 @@
 package org.example.Controller;
+
 import org.example.Model.User;
 import org.jetbrains.annotations.NotNull;
+
 import java.sql.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -60,7 +62,10 @@ public class Repository implements DAO {
                 preparedStatement.setString(1, user.Email());
                 preparedStatement.setString(2, user.Password());
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    return true;
+                    if (resultSet.next()) {
+                        return true;
+                    }
+                   return false;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
