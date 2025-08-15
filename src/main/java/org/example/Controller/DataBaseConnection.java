@@ -32,7 +32,7 @@ public class DataBaseConnection {
      */
     private static final DataBaseConnection instance = new DataBaseConnection();
 
-    private Connection con;
+    private static Connection con;
 
     /**
     made public for unit testing,but package-private
@@ -62,7 +62,7 @@ public class DataBaseConnection {
      */
     public Connection getConnection() {
         try {
-            if (con == null || con.isClosed()) {
+            if (con == null || con.isClosed() ) {
                 con = DriverManager.getConnection(URL, USER, PASSWORD);
             }
         } catch (SQLException e) {

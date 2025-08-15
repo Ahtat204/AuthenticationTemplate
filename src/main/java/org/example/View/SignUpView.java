@@ -118,11 +118,11 @@ public  non-sealed class SignUpView extends Form {
         add(SignUpButton);
         SignUpButton.addActionListener(e -> {
             var email = emailField.getText();
-            var check = confirmPasswordField.getPassword().equals(passwordField.getPassword());
             var confirmPassword = String.valueOf(confirmPasswordField.getPassword());
             var password = String.valueOf(passwordField.getPassword());
             var user = new User(email, password);
-
+            var check = password.equals(confirmPassword);
+            System.out.println(password+confirmPassword);
             if (check) {
                 SignUpConroller.SignUp(user).thenAccept(result -> {
                     processResult = new Result(
@@ -131,7 +131,7 @@ public  non-sealed class SignUpView extends Form {
                     );
                 });
             }
-            else{
+            else if(!check) {
                 processResult = new Result("password is not correct", Color.RED);
             }
 

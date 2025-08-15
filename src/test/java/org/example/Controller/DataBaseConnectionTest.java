@@ -1,5 +1,6 @@
 package org.example.Controller;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,10 +21,22 @@ class DataBaseConnectionTest {
         connection=mock(dataBaseConnection.getConnection().getClass());
     }
     @Test
-    void getInstance() {
+    void getInstance_test() {
+        var con=DataBaseConnection.getInstance().getConnection();
+      assertEquals(dataBaseConnection.getConnection(),con);
     }
 
     @Test
-    void getConnection() {
+    void AssertInstanceNotNull(){
+        assertNotNull(DataBaseConnection.getInstance());
+    }
+
+    @Test
+    void getConnection_test() {
+    }
+
+    @Test
+    void assertConnectionisNotNull() {
+        assertNotNull(dataBaseConnection.getConnection());
     }
 }
